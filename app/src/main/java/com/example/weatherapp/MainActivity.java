@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Targetting various views by their IDs and placing them in variables
         editText = findViewById(R.id.editTextTextPersonName);
         button = findViewById(R.id.button);
         imageView = findViewById(R.id.imageView);
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         min_temp = findViewById(R.id.min_temp);
         feels = findViewById(R.id.feels);
 
+        // When user clicks on button, trigger the FindWeather() function
         button.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -70,7 +72,10 @@ public class MainActivity extends AppCompatActivity {
         }
         public void FindWeather()
         {
+            // Getting user input
             final String city = editText.getText().toString();
+
+            // Concatenating user input with api url
             String url ="https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=9efffb9d3561d03f46b70965c6782b6d";
             StringRequest stringRequest = new StringRequest(Request.Method.GET,url,
                     new Response.Listener<String>() {
@@ -93,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                         String city = jsonObject.getString("name");
                         city_nam.setText(city);
 
-                        //find icon
+                        //find icon based on the weather
                         JSONArray jsonArray = jsonObject.getJSONArray("weather");
                         JSONObject obj = jsonArray.getJSONObject(0);
                         String icon = obj.getString("icon");
@@ -125,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                         String sunrise_find = object5.getString("sunrise");
                         sunrise.setText(sunrise_find+"  am");
 
-                        //find sunrise
+                        //find sunset
                         JSONObject object6 = jsonObject.getJSONObject("sys");
                         String sunset_find = object6.getString("sunset");
                         sunset.setText(sunset_find+"  pm");
@@ -160,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
+                // If there is an error, print the error to user as a toast
                 }
             }, new Response.ErrorListener() {
                 @Override
